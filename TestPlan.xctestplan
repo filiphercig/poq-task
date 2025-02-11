@@ -1,0 +1,25 @@
+{
+  "configurations" : [
+    {
+      "id" : "98CDC9B7-A55E-44D1-822B-0C803157C701",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : false,
+      "target" : {
+        "containerPath" : "container:poq-task.xcodeproj",
+        "identifier" : "CC04EDEE2D5B927B000947F5",
+        "name" : "poq-taskTests"
+      }
+    }
+  ],
+  "version" : 1
+}
