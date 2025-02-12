@@ -11,5 +11,7 @@ extension Constants {
     
     enum API {
         static let baseUrl = "https://api.github.com"
+        static let organizationName = "square"
+        static let repoPaginationSize = 30
     }
 }

@@ -18,22 +18,34 @@ final class HomeViewController: UIViewController {
 
     // MARK: Views
 
-    private lazy var spinnerView: UIActivityIndicatorView = {
+    private let spinnerView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView()
         view.startAnimating()
         view.hidesWhenStopped = true
         return view
     }()
 
-    private lazy var tableView: UITableView = {
+    private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.separatorStyle = .none
         tableView.backgroundColor = .clear
-        tableView.delegate = self
         tableView.showsVerticalScrollIndicator = false
         tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
         tableView.register(HomeRepoCell.self, forCellReuseIdentifier: HomeRepoCell.identity)
         return tableView
+    }()
+    
+    private let tableViewFooterSpinnerView: UIView = {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 64))
+
+        let spinner = UIActivityIndicatorView()
+        spinner.startAnimating()
+
+        view.addSubview(spinner)
+        spinner.snp.remakeConstraints {
+            $0.centerX.centerY.equalToSuperview()
+        }
+        return view
     }()
 
     // MARK: Init
@@ -72,6 +84,8 @@ private extension HomeViewController {
 
     func setupView() {
         view.backgroundColor = .backgroundPrimary
+        tableView.delegate = self
+        tableView.tableFooterView = tableViewFooterSpinnerView
     }
 
     func addSubviews() {
@@ -130,6 +144,27 @@ private extension HomeViewController {
                 tableView.reloadData()
             }
             .store(in: &cancellables)
+        
+        viewModel.tableViewPagination
+            .sink { [weak self] paginationStatus in
+                guard let self else { return }
+
+                switch paginationStatus {
+                case .empty:
+                    break
+                case .loading:
+                    tableViewFooterSpinnerView.isHidden = false
+                case .finished:
+                    tableViewFooterSpinnerView.isHidden = true
+                case .failed(let error):
+                    tableViewFooterSpinnerView.isHidden = true
+                    presentError(
+                        title: .localizable(.poq_generic_something_went_wrong_message),
+                        message: error.localizedDescription
+                    )
+                }
+            }
+            .store(in: &cancellables)
     }
 }
 
@@ -139,5 +174,15 @@ extension HomeViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         viewModel.onRepoSelection(indexPath)
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard let cellCount = (tableView.dataSource as? HomeDataSource)?.numberOfCells else {
+            return
+        }
+
+        if indexPath.row == cellCount - 1 {
+            viewModel.onBottomScroll()
+        }
     }
 }

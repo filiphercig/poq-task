@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 protocol RepoServicing {
-    func getReposList(for userID: String) -> AnyPublisher<Model.RepoList, NetworkError>
+    func getReposList(for userID: String, page: Int) -> AnyPublisher<Model.RepoList, NetworkError>
 }
 
 final class RepoService: RepoServicing {
@@ -26,8 +26,9 @@ final class RepoService: RepoServicing {
     
     // MARK: Public
 
-    func getReposList(for userID: String) -> AnyPublisher<Model.RepoList, NetworkError> {
-        let request = GetReposListRequest(userID: userID)
+    func getReposList(for userID: String, page: Int) -> AnyPublisher<Model.RepoList, NetworkError> {
+        let request = GetReposListRequest(userID: userID, page: page)
+        
         return apiClient.performRequest(request)
             .map { ReposListMapper.map($0) }
             .eraseToAnyPublisher()

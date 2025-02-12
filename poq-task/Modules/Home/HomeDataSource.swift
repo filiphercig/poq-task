@@ -23,11 +23,15 @@ final class HomeDataSource: NSObject {
     private var repos: Model.RepoList?
 
     // MARK: Public Methods
+    
+    func createCells(repos: Model.RepoList, isPaginating: Bool = false) {
+        if !isPaginating {
+            items.removeAll()
+        }
 
-    func createCells(repos: Model.RepoList) {
-        self.repos = repos
-        
-        repos.forEach { items.append(.reposCell($0)) }
+        repos.forEach { repo in
+            items.append(.reposCell(repo))
+        }
     }
 
     func getCell(for indexPath: IndexPath) -> HomeCellType {

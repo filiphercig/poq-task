@@ -51,9 +51,7 @@ final class APIClient: APIClientProtocol {
                     case 200...299:
                         return Just(data)
                             .decode(type: T.ResponseType.self, decoder: self.decoder)
-                            .mapError { error in
-                                return NetworkError.decodingError
-                            }
+                            .mapError { _ in NetworkError.decodingError }
                             .eraseToAnyPublisher()
 
                     case 400...499:
@@ -76,4 +74,3 @@ final class APIClient: APIClientProtocol {
             .eraseToAnyPublisher()
     }
 }
-

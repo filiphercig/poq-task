@@ -17,7 +17,6 @@ extension APIModel {
         let fullName: String
         let description: String?
         let owner: Owner
-        let license: License?
         let stargazersCount: Int
         let language: String?
         let forks: Int
@@ -29,7 +28,7 @@ extension APIModel {
         enum CodingKeys: String, CodingKey {
             case id, name
             case fullName = "full_name"
-            case description, owner, license
+            case description, owner
             case stargazersCount = "stargazers_count"
             case language, forks
             case openIssues = "open_issues"
@@ -52,24 +51,6 @@ extension APIModel {
                 case url
                 case followersURL = "followers_url"
             }
-        }
-        
-        struct License: Decodable {
-            let key: LicenceKey
-            let name: LicenceName
-            let url: String?
-        }
-        
-        enum LicenceKey: String, Decodable {
-            case apache20 = "apache-2.0"
-            case mit = "mit"
-            case other = "other"
-        }
-        
-        enum LicenceName: String, Decodable {
-            case apacheLicense20 = "Apache License 2.0"
-            case mitLicense = "MIT License"
-            case other = "Other"
         }
     }
 }

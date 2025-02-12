@@ -35,9 +35,13 @@ final class HomeViewModelTests: XCTestCase {
     // MARK: Tests
     
     func test_onRepoSelection_shouldOpenExternalBrowser() {
+        // GIVEN
         let indexPath = IndexPath(row: 0, section: 0)
+        
+        // WHEN
         subject.onRepoSelection(indexPath)
         
+        // THEN
         XCTAssertTrue(router.presentBrowserCalled)
         XCTAssertEqual(router.presentBrowserReceivedUrl, "first_link")
     }

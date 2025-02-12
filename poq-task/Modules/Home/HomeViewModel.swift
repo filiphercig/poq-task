@@ -16,8 +16,10 @@ typealias LoadingStatePublisher = AnyPublisher<LoadingState, Never>
 protocol HomeViewModeling {
     var loadingState: LoadingStatePublisher { get }
     var dataSource: HomeDataSourcePublisher { get }
+    var tableViewPagination: LoadingStatePublisher { get }
     
     func onRepoSelection(_ indexPath: IndexPath)
+    func onBottomScroll()
 }
 
 // MARK: - DetailsScreenViewModel
@@ -29,11 +31,16 @@ final class HomeViewModel {
     private let router: HomeRouting
     private let repoService: RepoServicing
     private var cancellables = Set<AnyCancellable>()
+    
+    private let organizationName = Constants.API.organizationName
+    private var pageNumber = 1
+    private var hasMorePages = true
 
     // MARK: Subjects
 
     private let loadingStateSubject: CurrentValueSubject<LoadingState, Never> = .init(.empty)
     private let dataSourceSubject: CurrentValueSubject<HomeDataSource, Never> = .init(HomeDataSource())
+    private let tableViewPaginationSubject: CurrentValueSubject<LoadingState, Never> = .init(.finished)
 
     // MARK: Init
 
@@ -52,7 +59,7 @@ final class HomeViewModel {
     private func getUserDetails() {
         loadingStateSubject.send(.loading)
 
-        repoService.getReposList(for: "square")
+        repoService.getReposList(for: organizationName, page: pageNumber)
             .sink { [weak self] completion in
                 guard let self else { return }
 
@@ -88,6 +95,10 @@ extension HomeViewModel: HomeViewModeling {
         dataSourceSubject.eraseToAnyPublisher()
     }
     
+    var tableViewPagination: LoadingStatePublisher {
+        tableViewPaginationSubject.eraseToAnyPublisher()
+    }
+    
     // MARK: Methods
     
     func onRepoSelection(_ indexPath: IndexPath) {
@@ -97,5 +108,39 @@ extension HomeViewModel: HomeViewModeling {
         case .reposCell(let viewModel):
             router.presentBrowser(with: viewModel.url)
         }
+    }
+    
+    func onBottomScroll() {
+        guard
+            tableViewPaginationSubject.value != .loading,
+            hasMorePages
+        else {
+            return
+        }
+        
+        tableViewPaginationSubject.send(.loading)
+        pageNumber += 1
+        
+        repoService.getReposList(for: organizationName, page: pageNumber)
+            .sink { [weak self] completion in
+                guard let self else { return }
+
+                switch completion {
+                case .finished:
+                    tableViewPaginationSubject.send(.finished)
+
+                case .failure(let error):
+                    tableViewPaginationSubject.send(.failed(error))
+                }
+            } receiveValue: { [weak self] repos in
+                guard let self else { return }
+                
+                hasMorePages = repos.isEmpty == false
+
+                let dataSource = dataSourceSubject.value
+                dataSource.createCells(repos: repos, isPaginating: true)
+                dataSourceSubject.send(dataSource)
+            }
+            .store(in: &cancellables)
     }
 }

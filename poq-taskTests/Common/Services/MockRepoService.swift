@@ -18,13 +18,15 @@ final class MockRepoService: RepoServicing {
         return getReposListCallsCount > 0
     }
     var getReposListReceivedUserID: String?
-    var getReposListClosure: ((String) -> Void)?
+    var getReposListReceivedPage: Int?
+    var getReposListClosure: ((String, Int) -> Void)?
     var getReposListReturnValue: AnyPublisher<Model.RepoList, NetworkError>?
     
-    func getReposList(for userID: String) -> AnyPublisher<Model.RepoList, NetworkError> {
+    func getReposList(for userID: String, page: Int) -> AnyPublisher<Model.RepoList, NetworkError> {
         getReposListCallsCount += 1
         getReposListReceivedUserID = userID
-        getReposListClosure?(userID)
+        getReposListReceivedPage = page
+        getReposListClosure?(userID, page)
         return getReposListReturnValue ?? Empty<Model.RepoList, NetworkError>().eraseToAnyPublisher()
     }
 }

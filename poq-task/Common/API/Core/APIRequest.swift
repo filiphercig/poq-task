@@ -26,6 +26,9 @@ extension APIRequest {
 
         urlRequest.httpMethod = httpMethod.rawValue
         urlRequest.httpBody = body
+        
+        urlRequest.setValue("no-cache", forHTTPHeaderField: "Cache-Control")
+        urlRequest.setValue("", forHTTPHeaderField: "If-None-Match")
 
         if let query {
             query.forEach { urlRequest.url?.appendQueryItem(name: $0.key, value: $0.value) }
