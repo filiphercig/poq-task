@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CC04EE552D5BA880000947F5 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = CC04EE542D5BA880000947F5 /* SnapKit */; };
+		CCFB6FA12D5C9A0500801EF3 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = CCFB6FA02D5C9A0500801EF3 /* SnapKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,7 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CC04EE552D5BA880000947F5 /* SnapKit in Frameworks */,
+				CCFB6FA12D5C9A0500801EF3 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,6 +75,7 @@
 			children = (
 				CC04EDDB2D5B927A000947F5 /* poq-task */,
 				CC04EDF22D5B927B000947F5 /* poq-taskTests */,
+				CCFB6F9F2D5C9A0500801EF3 /* Frameworks */,
 				CC04EDDA2D5B927A000947F5 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -86,6 +87,13 @@
 				CC04EDEF2D5B927B000947F5 /* poq-taskTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		CCFB6F9F2D5C9A0500801EF3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -102,13 +110,14 @@
 			buildRules = (
 			);
 			dependencies = (
+				CCFB6F9A2D5C99BE00801EF3 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				CC04EDDB2D5B927A000947F5 /* poq-task */,
 			);
 			name = "poq-task";
 			packageProductDependencies = (
-				CC04EE542D5BA880000947F5 /* SnapKit */,
+				CCFB6FA02D5C9A0500801EF3 /* SnapKit */,
 			);
 			productName = "poq-task";
 			productReference = CC04EDD92D5B927A000947F5 /* poq-task.app */;
@@ -167,7 +176,8 @@
 			mainGroup = CC04EDD02D5B927A000947F5;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				CC04EE532D5BA880000947F5 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				CCFB6F972D5C997B00801EF3 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				CCFB6F982D5C99A700801EF3 /* XCRemoteSwiftPackageReference "xcstrings-tool-plugin" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = CC04EDDA2D5B927A000947F5 /* Products */;
@@ -219,6 +229,10 @@
 			isa = PBXTargetDependency;
 			target = CC04EDD82D5B927A000947F5 /* poq-task */;
 			targetProxy = CC04EDF02D5B927B000947F5 /* PBXContainerItemProxy */;
+		};
+		CCFB6F9A2D5C99BE00801EF3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = CCFB6F992D5C99BE00801EF3 /* XCStringsToolPlugin */;
 		};
 /* End PBXTargetDependency section */
 
@@ -490,20 +504,33 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		CC04EE532D5BA880000947F5 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+		CCFB6F972D5C997B00801EF3 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 5.7.1;
 			};
 		};
+		CCFB6F982D5C99A700801EF3 /* XCRemoteSwiftPackageReference "xcstrings-tool-plugin" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/liamnichols/xcstrings-tool-plugin.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		CC04EE542D5BA880000947F5 /* SnapKit */ = {
+		CCFB6F992D5C99BE00801EF3 /* XCStringsToolPlugin */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = CC04EE532D5BA880000947F5 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			package = CCFB6F982D5C99A700801EF3 /* XCRemoteSwiftPackageReference "xcstrings-tool-plugin" */;
+			productName = "plugin:XCStringsToolPlugin";
+		};
+		CCFB6FA02D5C9A0500801EF3 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CCFB6F972D5C997B00801EF3 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
 		};
 /* End XCSwiftPackageProductDependency section */

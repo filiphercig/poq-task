@@ -11,6 +11,17 @@
           }
         }
       }
+    },
+    "poq_home_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Square"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

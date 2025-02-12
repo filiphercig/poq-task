@@ -61,7 +61,7 @@ final class HomeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        navigationItem.title = "Square"
+        navigationItem.title = .localizable(.poq_home_title)
         navigationController?.setupNavigationBar(animated: animated)
     }
 }
@@ -115,7 +115,7 @@ private extension HomeViewController {
                 case .failed(let error):
                     spinnerView.stopAnimating()
                     presentError(
-                        title: "Localizable",
+                        title: .localizable(.poq_generic_something_went_wrong_message),
                         message: error.localizedDescription
                     )
                 }
