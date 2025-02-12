@@ -19,6 +19,7 @@ protocol HomeViewModeling {
     var tableViewPagination: LoadingStatePublisher { get }
     
     func onRepoSelection(_ indexPath: IndexPath)
+    func onPullToRefresh()
     func onBottomScroll()
 }
 
@@ -56,8 +57,8 @@ final class HomeViewModel {
 
     // MARK: Private Methods
 
-    private func getUserDetails() {
-        loadingStateSubject.send(.loading)
+    private func getUserDetails(isPullToRefresh: Bool = false) {
+        isPullToRefresh ? () : loadingStateSubject.send(.loading)
 
         repoService.getReposList(for: organizationName, page: pageNumber)
             .sink { [weak self] completion in
@@ -108,6 +109,11 @@ extension HomeViewModel: HomeViewModeling {
         case .reposCell(let viewModel):
             router.presentBrowser(with: viewModel.url)
         }
+    }
+    
+    func onPullToRefresh() {
+        pageNumber = 1
+        getUserDetails(isPullToRefresh: true)
     }
     
     func onBottomScroll() {

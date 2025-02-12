@@ -47,6 +47,12 @@ final class HomeViewController: UIViewController {
         }
         return view
     }()
+    
+    private let refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        return refreshControl
+    }()
 
     // MARK: Init
 
@@ -65,6 +71,7 @@ final class HomeViewController: UIViewController {
         super.viewDidLoad()
 
         setupView()
+        setupTableView()
         addSubviews()
         setConstraints()
         observe()
@@ -76,6 +83,12 @@ final class HomeViewController: UIViewController {
         navigationItem.title = .localizable(.poq_home_title)
         navigationController?.setupNavigationBar(animated: animated)
     }
+    
+    // MARK: Private
+    
+    @objc private func handleRefresh() {
+        viewModel.onPullToRefresh()
+    }
 }
 
 // MARK: - UI Setup
@@ -84,8 +97,12 @@ private extension HomeViewController {
 
     func setupView() {
         view.backgroundColor = .backgroundPrimary
+    }
+    
+    func setupTableView() {
         tableView.delegate = self
         tableView.tableFooterView = tableViewFooterSpinnerView
+        tableView.refreshControl = refreshControl
     }
 
     func addSubviews() {
@@ -142,6 +159,7 @@ private extension HomeViewController {
                 
                 tableView.dataSource = dataSoruce
                 tableView.reloadData()
+                refreshControl.endRefreshing()
             }
             .store(in: &cancellables)
         
