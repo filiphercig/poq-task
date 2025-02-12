@@ -19,7 +19,7 @@ final class HomeRepoCell: UITableViewCell {
     
     // MARK: Views
 
-    private lazy var containterView: UIView = {
+    private let containterView: UIView = {
         let view = UIView()
         view.backgroundColor = .backgroundSecondary
         view.layer.cornerRadius = 12
@@ -30,14 +30,14 @@ final class HomeRepoCell: UITableViewCell {
         return view
     }()
 
-    private lazy var titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
 
         return label
     }()
 
-    private lazy var descriptionLabel: UILabel = {
+    private let descriptionLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 14, weight: .light)
@@ -45,9 +45,9 @@ final class HomeRepoCell: UITableViewCell {
         return label
     }()
 
-    private lazy var forksView = HomeRepoCellIconNumberPairView(iconName: "arrow.branch")
-    private lazy var starsView = HomeRepoCellIconNumberPairView(iconName: "star")
-    private lazy var followersView = HomeRepoCellIconNumberPairView(iconName: "eye")
+    private let forksView = HomeRepoCellIconNumberPairView(iconName: "arrow.branch")
+    private let starsView = HomeRepoCellIconNumberPairView(iconName: "star")
+    private let followersView = HomeRepoCellIconNumberPairView(iconName: "eye")
 
     private lazy var numbersStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [forksView, starsView, followersView])
@@ -58,7 +58,7 @@ final class HomeRepoCell: UITableViewCell {
         return stackView
     }()
 
-    private lazy var languageLabel: UILabel = {
+    private let languageLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = .orange

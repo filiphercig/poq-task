@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum LoadingState {
+enum LoadingState: Equatable {
 
     case empty
     case loading

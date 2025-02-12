@@ -19,7 +19,7 @@ final class HomeRepoCellIconNumberPairView: UIView {
     
     // MARK: Views
     
-    private lazy var iconImageView: UIImageView = {
+    private let iconImageView: UIImageView = {
         let icon = UIImageView()
         icon.tintColor = .textPrimary
         icon.contentMode = .scaleAspectFit
@@ -27,7 +27,7 @@ final class HomeRepoCellIconNumberPairView: UIView {
         return icon
     }()
     
-    private lazy var numberLabel: UILabel = {
+    private let numberLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 12)
