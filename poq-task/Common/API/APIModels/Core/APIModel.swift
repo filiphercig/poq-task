@@ -7,4 +7,4 @@
 
 import Foundation
 
-struct APIModel: Decodable {}
+struct APIModel: Codable {}

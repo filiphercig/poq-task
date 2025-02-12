@@ -16,11 +16,11 @@ final class RepoService: RepoServicing {
     
     // MARK: Private
     
-    private let apiClient: APIClient
+    private let apiClient: APIClientProtocol
     
     // MARK: Init
     
-    init(apiClient: APIClient = .shared) {
+    init(apiClient: APIClientProtocol = APIClient.shared) {
         self.apiClient = apiClient
     }
     

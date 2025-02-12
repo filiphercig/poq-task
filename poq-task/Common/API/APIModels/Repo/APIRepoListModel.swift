@@ -11,7 +11,7 @@ extension APIModel {
     
     typealias RepoList = [Repo]
     
-    struct Repo: Decodable {
+    struct Repo: Codable {
         let id: Int
         let name: String
         let fullName: String
