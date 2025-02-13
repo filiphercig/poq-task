@@ -19,6 +19,13 @@
         "identifier" : "CC04EDEE2D5B927B000947F5",
         "name" : "poq-taskTests"
       }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:poq-task.xcodeproj",
+        "identifier" : "CC28B02A2D5E6AD300FE3BF1",
+        "name" : "poq-task-UITests"
+      }
     }
   ],
   "version" : 1

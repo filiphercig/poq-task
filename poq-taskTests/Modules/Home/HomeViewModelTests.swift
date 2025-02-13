@@ -108,7 +108,8 @@ final class HomeViewModelTests: XCTestCase {
                 forks: 1,
                 openIssues: 1,
                 watchers: 2,
-                url: "first_link"
+                url: "first_link",
+                ownerAvatarUrl: ""
             ),
             Model.Repo(
                 id: 2,
@@ -120,7 +121,8 @@ final class HomeViewModelTests: XCTestCase {
                 forks: 1,
                 openIssues: 0,
                 watchers: 0,
-                url: "second_link"
+                url: "second_link",
+                ownerAvatarUrl: "abc"
             )
         ]
         repoService.getReposListReturnValue = Just(repoList)

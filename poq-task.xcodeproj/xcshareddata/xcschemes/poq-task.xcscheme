@@ -21,6 +21,20 @@
                ReferencedContainer = "container:poq-task.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "CC28B02A2D5E6AD300FE3BF1"
+               BuildableName = "poq-task-UITests.xctest"
+               BlueprintName = "poq-task-UITests"
+               ReferencedContainer = "container:poq-task.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -43,6 +57,17 @@
                BlueprintIdentifier = "CC04EDEE2D5B927B000947F5"
                BuildableName = "poq-taskTests.xctest"
                BlueprintName = "poq-taskTests"
+               ReferencedContainer = "container:poq-task.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "CC28B02A2D5E6AD300FE3BF1"
+               BuildableName = "poq-task-UITests.xctest"
+               BlueprintName = "poq-task-UITests"
                ReferencedContainer = "container:poq-task.xcodeproj">
             </BuildableReference>
          </TestableReference>

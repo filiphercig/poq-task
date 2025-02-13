@@ -57,6 +57,7 @@ extension HomeDataSource: UITableViewDataSource {
         case .reposCell(let repo):
             let cell: HomeRepoCell = tableView.dequeueCellAtIndexPath(indexPath: indexPath)
             cell.update(repo: repo)
+            cell.accessibilityIdentifier = "homeRepoCell\(indexPath.row)"
 
             return cell
         }
