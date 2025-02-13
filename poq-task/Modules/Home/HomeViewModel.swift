@@ -21,6 +21,7 @@ protocol HomeViewModeling {
     func onRepoSelection(_ indexPath: IndexPath)
     func onPullToRefresh()
     func onBottomScroll()
+    func onRetryButtonTap()
 }
 
 // MARK: - DetailsScreenViewModel
@@ -148,5 +149,10 @@ extension HomeViewModel: HomeViewModeling {
                 dataSourceSubject.send(dataSource)
             }
             .store(in: &cancellables)
+    }
+    
+    func onRetryButtonTap() {
+        pageNumber = 1
+        getUserDetails()
     }
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CC28B0102D5E58FD00FE3BF1 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = CC28B00F2D5E58FD00FE3BF1 /* Kingfisher */; };
 		CCFB6FA12D5C9A0500801EF3 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = CCFB6FA02D5C9A0500801EF3 /* SnapKit */; };
 /* End PBXBuildFile section */
 
@@ -56,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC28B0102D5E58FD00FE3BF1 /* Kingfisher in Frameworks */,
 				CCFB6FA12D5C9A0500801EF3 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -118,6 +120,7 @@
 			name = "poq-task";
 			packageProductDependencies = (
 				CCFB6FA02D5C9A0500801EF3 /* SnapKit */,
+				CC28B00F2D5E58FD00FE3BF1 /* Kingfisher */,
 			);
 			productName = "poq-task";
 			productReference = CC04EDD92D5B927A000947F5 /* poq-task.app */;
@@ -178,6 +181,7 @@
 			packageReferences = (
 				CCFB6F972D5C997B00801EF3 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				CCFB6F982D5C99A700801EF3 /* XCRemoteSwiftPackageReference "xcstrings-tool-plugin" */,
+				CC28B00E2D5E58FD00FE3BF1 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = CC04EDDA2D5B927A000947F5 /* Products */;
@@ -504,6 +508,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		CC28B00E2D5E58FD00FE3BF1 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.2.0;
+			};
+		};
 		CCFB6F972D5C997B00801EF3 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
@@ -523,6 +535,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		CC28B00F2D5E58FD00FE3BF1 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CC28B00E2D5E58FD00FE3BF1 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
 		CCFB6F992D5C99BE00801EF3 /* XCStringsToolPlugin */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = CCFB6F982D5C99A700801EF3 /* XCRemoteSwiftPackageReference "xcstrings-tool-plugin" */;

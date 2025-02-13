@@ -21,7 +21,8 @@ struct ReposListMapper {
                 forks: apiRepoModel.forks,
                 openIssues: apiRepoModel.openIssues,
                 watchers: apiRepoModel.watchers,
-                url: apiRepoModel.url
+                url: apiRepoModel.url,
+                ownerAvatarUrl: apiRepoModel.owner.avatarURL
             )
         }
     }

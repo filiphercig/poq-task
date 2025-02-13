@@ -22,5 +22,6 @@ extension Model {
         let openIssues: Int
         let watchers: Int
         let url: String
+        let ownerAvatarUrl: String?
     }
 }

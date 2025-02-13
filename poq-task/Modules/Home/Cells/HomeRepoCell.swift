@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 import SnapKit
 
 final class HomeRepoCell: UITableViewCell {
@@ -15,6 +16,10 @@ final class HomeRepoCell: UITableViewCell {
     private enum LocalConstants {
         static let containerSpacing: CGFloat = 10
         static let subviewsSpacing: CGFloat = 12
+        static let labelsSpacing: CGFloat = 4
+        static let avatarSize: CGFloat = 44
+        static let titleFontSize: CGFloat = 18
+        static let descriptonFontSize: CGFloat = 18
     }
     
     // MARK: Views
@@ -32,7 +37,7 @@ final class HomeRepoCell: UITableViewCell {
 
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
+        label.font = UIFont.systemFont(ofSize: LocalConstants.titleFontSize, weight: .medium)
 
         return label
     }()
@@ -40,9 +45,35 @@ final class HomeRepoCell: UITableViewCell {
     private let descriptionLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 14, weight: .light)
+        label.font = UIFont.systemFont(ofSize: LocalConstants.descriptonFontSize, weight: .light)
 
         return label
+    }()
+    
+    private lazy var labelsStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [titleLabel, descriptionLabel])
+        stackView.axis = .vertical
+        stackView.distribution = .fill
+        stackView.spacing = LocalConstants.labelsSpacing
+        
+        return stackView
+    }()
+    
+    private let ownerImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = true
+        
+        return imageView
+    }()
+    
+    private lazy var repoInfoStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [ownerImageView, labelsStackView])
+        stackView.axis = .horizontal
+        stackView.alignment = .top
+        stackView.spacing = LocalConstants.subviewsSpacing
+        
+        return stackView
     }()
 
     private let forksView = HomeRepoCellIconNumberPairView(iconName: "arrow.branch")
@@ -90,6 +121,8 @@ final class HomeRepoCell: UITableViewCell {
         forksView.update(number: repo.forks)
         starsView.update(number: repo.stargazersCount)
         followersView.update(number: repo.watchers)
+        
+        setAvataraImage(for: repo.ownerAvatarUrl)
     }
 }
 
@@ -104,8 +137,7 @@ private extension HomeRepoCell {
 
     func addSubviews() {
         contentView.addSubview(containterView)
-        containterView.addSubview(titleLabel)
-        containterView.addSubview(descriptionLabel)
+        containterView.addSubview(repoInfoStackView)
         containterView.addSubview(numbersStackView)
         containterView.addSubview(languageLabel)
     }
@@ -115,17 +147,16 @@ private extension HomeRepoCell {
             $0.edges.equalToSuperview().inset(LocalConstants.containerSpacing)
         }
         
-        titleLabel.snp.remakeConstraints {
+        repoInfoStackView.snp.remakeConstraints {
             $0.top.leading.trailing.equalToSuperview().inset(LocalConstants.subviewsSpacing)
         }
         
-        descriptionLabel.snp.remakeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(4)
-            $0.leading.trailing.equalToSuperview().inset(LocalConstants.subviewsSpacing)
+        ownerImageView.snp.remakeConstraints {
+            $0.width.height.equalTo(LocalConstants.avatarSize)
         }
         
         numbersStackView.snp.remakeConstraints {
-            $0.top.equalTo(descriptionLabel.snp.bottom).offset(LocalConstants.subviewsSpacing)
+            $0.top.equalTo(repoInfoStackView.snp.bottom).offset(LocalConstants.subviewsSpacing)
             $0.trailing.bottom.equalToSuperview().inset(LocalConstants.subviewsSpacing)
         }
         
@@ -133,5 +164,15 @@ private extension HomeRepoCell {
             $0.leading.equalToSuperview().offset(LocalConstants.subviewsSpacing)
             $0.centerY.equalTo(numbersStackView.snp.centerY)
         }
+    }
+    
+    func setAvataraImage(for ownerImageUrlString: String?) {
+        guard
+            let ownerImageUrlString,
+            let ownerImageUrl = URL(string: ownerImageUrlString)
+        else {
+            return
+        }
+        ownerImageView.kf.setImage(with: ownerImageUrl)
     }
 }

@@ -147,8 +147,11 @@ private extension HomeViewController {
                     spinnerView.stopAnimating()
                     presentError(
                         title: .localizable(.poq_generic_something_went_wrong_message),
-                        message: error.localizedDescription
-                    )
+                        message: error.localizedDescription,
+                        hasCancelButon: false
+                    ) { [weak self] _ in
+                        self?.viewModel.onRetryButtonTap()
+                    }
                 }
             }
             .store(in: &cancellables)

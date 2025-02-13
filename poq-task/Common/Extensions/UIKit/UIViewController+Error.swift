@@ -12,15 +12,23 @@ import SafariServices
 
 extension UIViewController {
 
-    func presentError(title: String, message: String, retryButtonAction: ((UIAlertAction) -> Void)? = nil) {
+    func presentError(
+        title: String,
+        message: String,
+        hasCancelButon: Bool = true,
+        retryButtonAction: ((UIAlertAction) -> Void)? = nil
+    ) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
 
         if let retryButtonAction {
             alert.addAction(.init(title: "Retry", style: .default, handler: retryButtonAction))
         }
-        alert.addAction(.init(title: "Cancel", style: .destructive))
+        
+        if hasCancelButon {
+            alert.addAction(.init(title: "Cancel", style: .destructive))
+        }
 
-        self.present(alert, animated: true)
+        present(alert, animated: true)
     }
 }
 

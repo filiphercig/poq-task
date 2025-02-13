@@ -51,6 +51,7 @@ This project follows the **MVVM-C (Model-View-ViewModel-Coordinator)** pattern:
 The project uses:
 - [**SnapKit**](https://github.com/SnapKit/SnapKit) for programmatic Auto Layout setup
 - [**xcstrings-tool**](https://github.com/liamnichols/xcstrings-tool) for managing localized strings.
+- [**Kingfisher**](https://github.com/onevcat/Kingfisher) for asynchronous image downloading and caching
 
 ## Usage
 
