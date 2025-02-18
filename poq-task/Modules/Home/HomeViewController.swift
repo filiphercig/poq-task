@@ -198,12 +198,6 @@ extension HomeViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        guard let cellCount = (tableView.dataSource as? HomeDataSource)?.numberOfCells else {
-            return
-        }
-
-        if indexPath.row == cellCount - 1 {
-            viewModel.onBottomScroll()
-        }
+        viewModel.onTableViewWillDisplayCell(for: indexPath)
     }
 }

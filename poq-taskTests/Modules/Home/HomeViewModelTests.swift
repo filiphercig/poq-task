@@ -16,7 +16,7 @@ final class HomeViewModelTests: XCTestCase {
     
     private var router: MockHomeRouter!
     private var repoService: MockRepoService!
-    private var subject: HomeViewModel!
+    private var subject: HomeViewModeling!
     
     // MARK: Setup
     
@@ -26,7 +26,7 @@ final class HomeViewModelTests: XCTestCase {
         
         setupRepoMockData()
         
-        subject = .init(
+        subject = HomeViewModel(
             router: router,
             repoService: repoService
         )
@@ -44,7 +44,7 @@ final class HomeViewModelTests: XCTestCase {
             }
         
         // WHEN
-        subject.onBottomScroll()
+        subject.onTableViewWillDisplayCell(for: IndexPath(row: 14, section: 0))
         
         // THEN
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -59,14 +59,15 @@ final class HomeViewModelTests: XCTestCase {
     
     func test_onRepoSelection_shouldOpenExternalBrowser() {
         // GIVEN
-        let indexPath = IndexPath(row: 0, section: 0)
+        let cellRow = 3
+        let indexPath = IndexPath(row: cellRow, section: 0)
         
         // WHEN
         subject.onRepoSelection(indexPath)
         
         // THEN
         XCTAssertTrue(router.presentBrowserCalled)
-        XCTAssertEqual(router.presentBrowserReceivedUrl, "first_link")
+        XCTAssertEqual(router.presentBrowserReceivedUrl, "repo_link_\(cellRow + 1)")
     }
     
     func test_onBottomScroll_shouldLoadMoreRepos() {
@@ -84,7 +85,7 @@ final class HomeViewModelTests: XCTestCase {
         }
         
         // WHEN
-        subject.onBottomScroll()
+        subject.onTableViewWillDisplayCell(for: IndexPath(row: 14, section: 0))
         
         // THEN
         XCTAssertTrue(repoService.getReposListCalled)
@@ -97,34 +98,23 @@ final class HomeViewModelTests: XCTestCase {
     // MARK: Private
     
     private func setupRepoMockData() {
-        let repoList: Model.RepoList = [
-            Model.Repo(
-                id: 1,
-                name: "First",
-                fullName: "First",
-                description: "Description 1",
-                stargazersCount: 1,
-                language: nil,
-                forks: 1,
-                openIssues: 1,
-                watchers: 2,
-                url: "first_link",
-                ownerAvatarUrl: ""
-            ),
-            Model.Repo(
-                id: 2,
-                name: "Second",
-                fullName: "Second",
-                description: nil,
-                stargazersCount: 2,
-                language: nil,
-                forks: 1,
-                openIssues: 0,
-                watchers: 0,
-                url: "second_link",
-                ownerAvatarUrl: "abc"
-            )
-        ]
+        var repoList: Model.RepoList = []
+        for i in 1...20 {
+            repoList.append(Model.Repo(
+                id: i,
+                name: "Repo \(i)",
+                fullName: "Repo \(i)",
+                description: "Description \(i)",
+                stargazersCount: i,
+                language: "Swift",
+                forks: i,
+                openIssues: i,
+                watchers: i,
+                url: "repo_link_\(i)",
+                ownerAvatarUrl: "avatar_\(i)"
+            ))
+        }
+        
         repoService.getReposListReturnValue = Just(repoList)
             .setFailureType(to: NetworkError.self)
             .eraseToAnyPublisher()

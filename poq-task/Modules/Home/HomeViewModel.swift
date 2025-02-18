@@ -19,8 +19,8 @@ protocol HomeViewModeling {
     var tableViewPagination: LoadingStatePublisher { get }
     
     func onRepoSelection(_ indexPath: IndexPath)
+    func onTableViewWillDisplayCell(for indexPath: IndexPath)
     func onPullToRefresh()
-    func onBottomScroll()
     func onRetryButtonTap()
 }
 
@@ -75,8 +75,42 @@ final class HomeViewModel {
             } receiveValue: { [weak self] repos in
                 guard let self else { return }
 
-                let dataSource = self.dataSourceSubject.value
+                let dataSource = dataSourceSubject.value
                 dataSource.createCells(repos: repos)
+                dataSourceSubject.send(dataSource)
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func onBottomScroll() {
+        guard
+            tableViewPaginationSubject.value != .loading,
+            hasMorePages
+        else {
+            return
+        }
+        
+        tableViewPaginationSubject.send(.loading)
+        pageNumber += 1
+        
+        repoService.getReposList(for: organizationName, page: pageNumber)
+            .sink { [weak self] completion in
+                guard let self else { return }
+
+                switch completion {
+                case .finished:
+                    tableViewPaginationSubject.send(.finished)
+
+                case .failure(let error):
+                    tableViewPaginationSubject.send(.failed(error))
+                }
+            } receiveValue: { [weak self] repos in
+                guard let self else { return }
+                
+                hasMorePages = repos.isEmpty == false
+
+                let dataSource = dataSourceSubject.value
+                dataSource.createCells(repos: repos, isPaginating: true)
                 dataSourceSubject.send(dataSource)
             }
             .store(in: &cancellables)
@@ -117,38 +151,12 @@ extension HomeViewModel: HomeViewModeling {
         getUserDetails(isPullToRefresh: true)
     }
     
-    func onBottomScroll() {
-        guard
-            tableViewPaginationSubject.value != .loading,
-            hasMorePages
-        else {
-            return
+    func onTableViewWillDisplayCell(for indexPath: IndexPath) {
+        let cellCount = dataSourceSubject.value.numberOfCells
+        
+        if indexPath.row == cellCount - 6 {
+            onBottomScroll()
         }
-        
-        tableViewPaginationSubject.send(.loading)
-        pageNumber += 1
-        
-        repoService.getReposList(for: organizationName, page: pageNumber)
-            .sink { [weak self] completion in
-                guard let self else { return }
-
-                switch completion {
-                case .finished:
-                    tableViewPaginationSubject.send(.finished)
-
-                case .failure(let error):
-                    tableViewPaginationSubject.send(.failed(error))
-                }
-            } receiveValue: { [weak self] repos in
-                guard let self else { return }
-                
-                hasMorePages = repos.isEmpty == false
-
-                let dataSource = dataSourceSubject.value
-                dataSource.createCells(repos: repos, isPaginating: true)
-                dataSourceSubject.send(dataSource)
-            }
-            .store(in: &cancellables)
     }
     
     func onRetryButtonTap() {
